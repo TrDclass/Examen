@@ -18,6 +18,28 @@ const CarritoDeCompras = () => {
     fetchItemsCarrito()
   }
 
+  const completarOrden = async () => {
+    if (!name || !address || itemsCarrito.length === 0) {
+      alert('Debes llenar todos los campos y tener al menos un ítem en el carrito.')
+      return
+    }
+  
+    const payload = {
+      items: itemsCarrito,
+      subtotal: subtotal,
+      name,
+      address
+    }
+  
+    await ordenApi.addItem(payload)        
+    await carritoApi.removeAll()           
+    setItemsCarrito([])                    
+    setName('')
+    setAddress('')
+    alert('Orden completada correctamente.')
+  }
+  
+
   useEffect(() => {
     fetchItemsCarrito()
   }, [])
@@ -44,7 +66,8 @@ const CarritoDeCompras = () => {
       <pre>Add your name:     <input type="text" style={{ width: 300 }} value={name} onChange={(e) => setName(e.target.value)} /></pre>
       <pre>And address:       <input type="text" style={{ width: 300 }} value={address} onChange={(e) => setAddress(e.target.value)} /></pre>
       <hr />
-      <button >COMPLETE YOUR ORDER</button>
+      <button onClick={completarOrden}>COMPLETE YOUR ORDER</button>
+
     </>
   )
 }
