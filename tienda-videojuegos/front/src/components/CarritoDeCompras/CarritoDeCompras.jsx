@@ -13,6 +13,11 @@ const CarritoDeCompras = () => {
         const response = await carritoApi.findAll()
         setItemsCarrito(response.items)
     }
+    const eliminarItem = async (id) => {
+        await carritoApi.removeItem(id)
+        fetchItemsCarrito() // Refresca lista
+      }
+      
 
     //const payload = { items: itemsCarrito, subtotal: subtotal, name, address}
     
@@ -21,19 +26,22 @@ const CarritoDeCompras = () => {
     }
 
     useEffect(() => {
-        onLoad();
-    },[])
+        const total = itemsCarrito.reduce((acc, item) => acc + item.precio, 0)
+        setSubtotal(total)
+      }, [itemsCarrito])
+      
 
     return (
         <>
             <h1>Cart</h1>
             <h3>Items:</h3>
             {itemsCarrito?.map((item) => {
-                return <div key={item.carritoId}>
-                            <span>🎵 {item.titulo} - {item.autor} - ${item.precio} <button>x</button>
-                            </span>
-                </div>
-            })}
+  return <div key={item.carritoId}>
+    <span>🎮 {item.titulo} - {item.publisher} - ${item.precio}
+      <button onClick={() => eliminarItem(item.carritoId)}>x</button>
+    </span>
+  </div>
+})}
             <hr></hr>
             <h4>Subtotal: $ {subtotal}</h4>
             <hr></hr>
