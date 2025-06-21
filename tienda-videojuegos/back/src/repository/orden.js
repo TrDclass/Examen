@@ -1,34 +1,31 @@
-import model from '../models/orden.js'
+import ordenes from '../models/orden.js'
 
-let carrito = {...model};
+let listaOrdenes = [...ordenes] // ← usa una lista propia
 
 const findAll = () => {
-    return carrito;
+  return listaOrdenes
 }
 
-const addItem = (item) => {
-    item.carritoId = carrito.items.length + 1;
-    carrito.items.push(item);
-    
-    return item;
+const addItem = (orden) => {
+  orden.id = listaOrdenes.length + 1
+  listaOrdenes.push(orden)
+  return orden
 }
 
-const remove = (carritoId) => {
-    const index = carrito.items.findIndex(item => item.carritoId == carritoId);
-
-    if (index > -1) {
-        carrito.items.splice(index,1);
-        return true;
-    }
-    else   
-        return false;
-} 
+const remove = (id) => {
+  const index = listaOrdenes.findIndex(o => o.id == id)
+  if (index > -1) {
+    listaOrdenes.splice(index, 1)
+    return true
+  }
+  return false
+}
 
 const removeAll = () => {
-    carrito.items = [];
-    return true;
+  listaOrdenes = []
+  return true
 }
 
-const repository = { findAll, addItem, remove,removeAll }
+const repository = { findAll, addItem, remove, removeAll }
 
-export default repository;
+export default repository
